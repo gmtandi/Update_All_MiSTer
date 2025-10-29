@@ -30,6 +30,7 @@ DEFAULT_DEBUG: Final[str] = 'false'
 DEFAULT_TRANSITION_SERVICE_ONLY: Final[str] = 'false'
 DEFAULT_LOCAL_TEST_RUN: Final[str] = 'false'
 
+PROXY_URL: Final[str] = "http://proxy.andi.com.br/"
 MISTER_ENVIRONMENT: Final[str] = 'mister'
 STANDARD_UI_THEME: Final[str] = 'Blue Installer'
 
@@ -135,7 +136,7 @@ UPDATE_ALL_VERSION: Final[str] = "2.4"
 MISTER_DOWNLOADER_VERSION: Final[str] = "2.2"
 ARCADE_ORGANIZER_INSTALLED_NAMES_TXT: Final[str] = "Scripts/.config/arcade-organizer/installed_names.txt"
 ARCADE_ORGANIZER_INI: Final[str] = "Scripts/update_arcade-organizer.ini"
-DOWNLOADER_URL: Final[str] = "https://github.com/MiSTer-devel/Downloader_MiSTer/releases/download/latest/dont_download.zip"
+DOWNLOADER_URL: Final[str] = "https://github.com/gmtandi/Downloader_MiSTer/releases/download/latest/dont_download.zip"
 DOWNLOADER_INI_STANDARD_PATH: Final[str] = "downloader.ini"
 DOWNLOADER_STORE_STANDARD_PATH: Final[str] = "Scripts/.config/downloader/downloader.json"
 DOWNLOADER_LATEST_ZIP_PATH: Final[str] = "Scripts/.config/downloader/downloader_latest.zip"

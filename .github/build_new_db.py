@@ -127,17 +127,19 @@ with zipfile.ZipFile('mad_db.json.zip') as z:
     if bad_file is not None:
         raise Exception('Zip is wrong:', bad_file)
 
-fetch_file('update_all_latest_log.sh', 'https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/refs/heads/master/src/update_all_latest_log.sh')
-fetch_file('update_all_timeline.sh', 'https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/refs/heads/master/src/update_all_timeline.sh')
+fetch_file('update_all_latest_log.sh', 'https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/refs/heads/master/src/update_all_latest_log.sh')
+fetch_file('update_all_timeline.sh', 'https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/refs/heads/master/src/update_all_timeline.sh')
 
 save_json(generate_pocket_firmware_details(), 'pocket_firmware_details.json')
 
-timeline_token = os.environ.get('TIMELINE_TOKEN')
-if not timeline_token:
-    raise Exception('TIMELINE_TOKEN environment variable is not set')
+# timeline_token = os.environ.get('TIMELINE_TOKEN')
+# if not timeline_token:
+#     raise Exception('TIMELINE_TOKEN environment variable is not set')
 
-fetch_file('timeline_plus.enc', 'https://raw.githubusercontent.com/theypsilon/Timeline_MiSTer/refs/heads/main/artis/timeline_view_long.json.enc', timeline_token)
-fetch_file('timeline.json', 'https://raw.githubusercontent.com/theypsilon/Timeline_MiSTer/refs/heads/main/artis/timeline_view_short.json', timeline_token)
+# fetch_file('timeline_plus.enc', 'https://raw.githubusercontent.com/theypsilon/Timeline_MiSTer/refs/heads/main/artis/timeline_view_long.json.enc', timeline_token)
+# fetch_file('timeline.json', 'https://raw.githubusercontent.com/theypsilon/Timeline_MiSTer/refs/heads/main/artis/timeline_view_short.json', timeline_token)
+open('timeline_plus.enc', 'w').close()
+open('timeline.json', 'w').close()
 
 subprocess.run(['zip', 'update_all.zip', 'update_all.sh'], check=True)
 
@@ -160,16 +162,16 @@ new_db['files'] = {
         'hash': hash_file('pocket_firmware_details.json'),
         'tags': [2],
     },
-    'Scripts/.config/update_all/timeline_plus.enc': {
-        'size': os.path.getsize('timeline_plus.enc'),
-        'hash': hash_file('timeline_plus.enc'),
-        'tags': [2, 1]
-    },
-    'Scripts/.config/update_all/timeline.json': {
-        'size': os.path.getsize('timeline.json'),
-        'hash': hash_file('timeline.json'),
-        'tags': [2, 1]
-    },
+    # 'Scripts/.config/update_all/timeline_plus.enc': {
+    #     'size': os.path.getsize('timeline_plus.enc'),
+    #     'hash': hash_file('timeline_plus.enc'),
+    #     'tags': [2, 1]
+    # },
+    # 'Scripts/.config/update_all/timeline.json': {
+    #     'size': os.path.getsize('timeline.json'),
+    #     'hash': hash_file('timeline.json'),
+    #     'tags': [2, 1]
+    # },
     'Scripts/update_all.sh': {
         'size': os.path.getsize('update_all.sh'),
         'hash': hash_file('update_all.sh')
@@ -224,7 +226,7 @@ commit_id = subprocess.getoutput("git rev-parse HEAD")
 
 for k, v in new_db['files'].items():
     file_name = Path(k).name
-    v['url'] = f'https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/{commit_id}/{file_name}'
+    v['url'] = f'https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/{commit_id}/{file_name}'
 
 new_db['timestamp'] = int(time.time())
 save_json(new_db, 'update_all_db.json')

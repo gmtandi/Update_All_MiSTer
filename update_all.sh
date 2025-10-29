@@ -19,10 +19,17 @@
 
 set -euo pipefail
 
+# Clean up old downloader files
+rm -rf /media/fat/Scripts/.config/downloader 2> /dev/null || true
+rm -rf /media/fat/Scripts/.config/update_all 2> /dev/null || true
+
 RUN_SCRIPT_PATH="/tmp/update_all.sh"
 LATEST_SCRIPT_PATH="/media/fat/Scripts/.config/update_all/update_all.pyz"
 CACERT_PEM_0="/etc/ssl/certs/cacert.pem"
 CACERT_PEM_1="/media/fat/Scripts/.config/downloader/cacert.pem"
+
+USE_PROXY="false"
+PROXY_URL="http://proxy.andi.com.br/"
 
 if (( $(date +%Y) < 2000 )) ; then
     NTP_SERVER="0.pool.ntp.org"
@@ -88,10 +95,32 @@ download_file() {
     local DOWNLOAD_PATH="${1}"
     local DOWNLOAD_URL="${2}"
     set +e
-    curl ${CURL_SSL:-} --silent --fail --location -o "${DOWNLOAD_PATH}" "${DOWNLOAD_URL}"
-    local CMD_RET=$?
-    set -e
+    local CMD_RET=1
 
+    if [[ "${USE_PROXY}" == "false" ]]; then
+        curl ${CURL_SSL:-} --silent --fail --location -o "${DOWNLOAD_PATH}" "${DOWNLOAD_URL}"
+        CMD_RET=$?
+        if [[ ${CMD_RET} -ne 0 ]]; then
+            echo ; echo "Direct download failed. Enabling proxy for subsequent downloads."
+            USE_PROXY="true"
+        else
+            set -e
+            return 0
+        fi
+    fi
+
+    if [[ "${USE_PROXY}" == "true" ]]; then
+        curl ${CURL_SSL:-} --silent --fail --location -o "${DOWNLOAD_PATH}" "${PROXY_URL}${DOWNLOAD_URL}"
+        CMD_RET=$?
+        if [[ ${CMD_RET} -ne 0 ]]; then
+            echo ; echo "Proxy download failed. Trying direct download..."
+            curl ${CURL_SSL:-} --silent --fail --location -o "${DOWNLOAD_PATH}" "${DOWNLOAD_URL}"
+            CMD_RET=$?
+        fi
+    fi
+
+    set -e
+ 
     case ${CMD_RET} in
         0)
             return
@@ -114,7 +143,7 @@ rm ${RUN_SCRIPT_PATH} 2> /dev/null || true
 if [ -s "${LATEST_SCRIPT_PATH}" ] ; then
     cp "${LATEST_SCRIPT_PATH}" "${RUN_SCRIPT_PATH}"
 else
-    download_file "${RUN_SCRIPT_PATH}" "https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/master/dont_download2.sh"
+    download_file "${RUN_SCRIPT_PATH}" "https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/master/dont_download2.sh"
     echo -n "!"
 fi
 
