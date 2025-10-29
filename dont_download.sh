@@ -27,8 +27,8 @@ set -euo pipefail
 
 UPDATE_ALL_VERSION="1.4"
 UPDATE_ALL_PC_UPDATER="${UPDATE_ALL_PC_UPDATER:-false}"
-UPDATE_ALL_LAUNCHER_MD5="36d2f56032c49ca76f7cf4b48f11a90c"
-UPDATE_ALL_URL="https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/master/update_all.sh"
+UPDATE_ALL_LAUNCHER_MD5="4a22896f687efb1c3bb6ff5660577075"
+UPDATE_ALL_URL="https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/master/update_all.sh"
 
 if [[ "${UPDATE_ALL_PC_UPDATER}" != "true" ]] ; then
     OLD_SCRIPT_PATH="${EXPORTED_INI_PATH%.*}.sh"
@@ -54,7 +54,7 @@ if [[ "${UPDATE_ALL_PC_UPDATER}" != "true" ]] ; then
     echo "Try again later. It could be a temporal network issue."
     echo
     echo "If you keep getting this error, please reinstall Update All:"
-    echo "https://github.com/theypsilon/Update_All_MiSTer"
+    echo "https://github.com/gmtandi/Update_All_MiSTer"
     echo
     exit 1
 else
@@ -65,7 +65,7 @@ else
     echo "As of 2022.12.31, Update All 'Updater PC' is no longer supported."
     echo
     echo "Please use the new 'PC Launcher' for the MiSTer Downloader. Check the 'PC Launcher for Windows, Mac and Linux' section at:"
-    echo "https://github.com/MiSTer-devel/Downloader_MiSTer"
+    echo "https://github.com/gmtandi/Downloader_MiSTer"
     echo
     echo "This alternative is much faster, more robust, and installs substantially more content."
     echo "Use the 'PC Launcher' with a downloader.ini file saved with Update All's Setting Screen to get the same content you'd typically get from Update All."

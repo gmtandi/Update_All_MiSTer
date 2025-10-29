@@ -37,6 +37,7 @@ class Config:
     timeline_short_path: str = FILE_timeline_short
     timeline_plus_path: str = FILE_timeline_plus
     command: str = COMMAND_STANDARD
+    use_proxy: bool = False
 
     # General options
     base_path: str = MEDIA_FAT
