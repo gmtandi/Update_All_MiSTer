@@ -30,6 +30,7 @@ DEFAULT_DEBUG: Final[str] = 'false'
 DEFAULT_TRANSITION_SERVICE_ONLY: Final[str] = 'false'
 DEFAULT_LOCAL_TEST_RUN: Final[str] = 'false'
 
+PROXY_URL: Final[str] = "http://proxy.andi.com.br/"
 MISTER_ENVIRONMENT: Final[str] = 'mister'
 STANDARD_UI_THEME: Final[str] = 'Blue Installer'
 

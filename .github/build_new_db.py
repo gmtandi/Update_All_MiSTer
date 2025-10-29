@@ -127,8 +127,8 @@ with zipfile.ZipFile('mad_db.json.zip') as z:
     if bad_file is not None:
         raise Exception('Zip is wrong:', bad_file)
 
-fetch_file('update_all_latest_log.sh', 'https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/refs/heads/master/src/update_all_latest_log.sh')
-fetch_file('update_all_timeline.sh', 'https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/refs/heads/master/src/update_all_timeline.sh')
+fetch_file('update_all_latest_log.sh', 'https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/refs/heads/master/src/update_all_latest_log.sh')
+fetch_file('update_all_timeline.sh', 'https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/refs/heads/master/src/update_all_timeline.sh')
 
 save_json(generate_pocket_firmware_details(), 'pocket_firmware_details.json')
 
@@ -224,7 +224,7 @@ commit_id = subprocess.getoutput("git rev-parse HEAD")
 
 for k, v in new_db['files'].items():
     file_name = Path(k).name
-    v['url'] = f'https://raw.githubusercontent.com/theypsilon/Update_All_MiSTer/{commit_id}/{file_name}'
+    v['url'] = f'https://raw.githubusercontent.com/gmtandi/Update_All_MiSTer/{commit_id}/{file_name}'
 
 new_db['timestamp'] = int(time.time())
 save_json(new_db, 'update_all_db.json')
