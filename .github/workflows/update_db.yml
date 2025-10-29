@@ -28,7 +28,7 @@ jobs:
     - name: Build new DB
       id: build_new_db
       run: |
-        git config --global user.email "theypsilon@gmail.com"
+        git config --global user.email "andi@andi.com.br"
         git config --global user.name "The CI/CD Bot"
         python3 .github/build_new_db.py
       env:
@@ -38,6 +38,6 @@ jobs:
     - name: Release new DB
       if : steps.build_new_db.outputs.new_db == 'yes'
       run: |
-        git config --global user.email "theypsilon@gmail.com"
+        git config --global user.email "andi@andi.com.br"
         git config --global user.name "The CI/CD Bot"
         git push --force origin db

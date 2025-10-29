@@ -27,6 +27,7 @@ from typing import Optional, Tuple
 from update_all.config import Config
 from update_all.other import GenericProvider
 from update_all.logger import Logger
+from update_all.constants import PROXY_URL
 import ssl
 
 
@@ -120,15 +121,32 @@ class LinuxOsUtils(OsUtils):
         time.sleep(seconds)
 
     def download(self, url) -> Optional[bytes]:
-        try:
-            return subprocess.check_output(self._curl_command(url))
-        except subprocess.CalledProcessError as e:
-            self._logger.debug(e)
-            if e.returncode in _curl_connection_error_codes:
-                self._logger.print(f"Connection error: {_curl_connection_error_codes[e.returncode]}")
-            else:
-                self._logger.print(f"An error occurred, please try again later.")
-            return None
+       config = self._config_provider.get()
+       
+       if not config.use_proxy:
+           try:
+               return subprocess.check_output(self._curl_command(url))
+           except subprocess.CalledProcessError as e:
+               self._logger.debug(e)
+               self._logger.print("Direct download failed. Enabling proxy for subsequent downloads.")
+               config.use_proxy = True
+       
+       if config.use_proxy:
+           try:
+               return subprocess.check_output(self._curl_command(f"{PROXY_URL}{url}"))
+           except subprocess.CalledProcessError as e:
+               self._logger.debug(e)
+               self._logger.print("Proxy download failed. Trying direct download again...")
+               try:
+                   return subprocess.check_output(self._curl_command(url))
+               except subprocess.CalledProcessError as e_direct:
+                   self._logger.debug(e_direct)
+                   if e_direct.returncode in _curl_connection_error_codes:
+                       self._logger.print(f"Connection error: {_curl_connection_error_codes[e_direct.returncode]}")
+                   else:
+                       self._logger.print("An error occurred, please try again later.")
+                   return None
+       return None
 
     def _curl_command(self, url):
         curl_ssl = self._config_provider.get().curl_ssl
