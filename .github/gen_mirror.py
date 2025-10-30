@@ -21,7 +21,7 @@ SOURCE_DOMAINS = [
     'github.com',
     'www.github.com'
 ]
-MIRROR_DOMAIN = 'mirror1.undefinedproxy.com'
+MIRROR_DOMAIN = 'proxy.andi.com.br'
 MIRROR_BRANCH = 'mirror-1'
 
 
